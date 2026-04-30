@@ -209,13 +209,21 @@ QR을 찍을 때마다 방문 기록이 자동으로 쌓입니다.
   }
 
   // 페이지 들어오면 자동 방문 체크
-  window.onload = function () {
-    if (user) {
+ window.onload = function () {
+  if (user) {
+    const today = new Date().toISOString().slice(0, 10);
+
+    // 마지막 방문 날짜 확인
+    if (user.lastVisit !== today) {
       user.visits = (user.visits || 0) + 1;
+      user.lastVisit = today;
+
       localStorage.setItem("gosimUser", JSON.stringify(user));
-      updateUI();
     }
-  };
+
+    updateUI();
+  }
+};
 
   function saveUser() {
     const name = document.getElementById("name").value.trim();
@@ -227,11 +235,11 @@ QR을 찍을 때마다 방문 기록이 자동으로 쌓입니다.
     }
 
     user = {
-      name: name,
-      phone: phone,
-      visits: 1
-    };
-
+  name: name,
+  phone: phone,
+  visits: 1,
+  lastVisit: new Date().toISOString().slice(0, 10)
+};
     localStorage.setItem("gosimUser", JSON.stringify(user));
     updateUI();
 
