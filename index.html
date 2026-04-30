@@ -1,78 +1,259 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>고심 단골카드</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: sans-serif;
-      background: #f6f1e8;
-      padding: 20px;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Noto Sans KR", sans-serif;
+      background: #f5f0e6;
+      color: #19382f;
     }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      margin-bottom: 20px;
+
+    .wrap {
+      min-height: 100vh;
+      padding: 28px 18px 40px;
+      display: flex;
+      justify-content: center;
     }
-    button {
-      padding: 10px;
-      margin-top: 10px;
+
+    .container {
       width: 100%;
+      max-width: 430px;
+    }
+
+    .hero {
+      background: #123b32;
+      color: #fffaf0;
+      border-radius: 28px;
+      padding: 34px 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 14px 30px rgba(18, 59, 50, 0.18);
+    }
+
+    .brand {
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: 30px;
+      line-height: 1.25;
+      margin: 0 0 14px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      line-height: 1.65;
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    .card {
+      background: #fffdf7;
+      border-radius: 24px;
+      padding: 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(25, 56, 47, 0.08);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    input {
+      width: 100%;
+      height: 52px;
+      border: 1px solid #d8d0c2;
+      border-radius: 16px;
+      padding: 0 16px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      background: #fff;
+      color: #19382f;
+    }
+
+    input::placeholder {
+      color: #9b9388;
+    }
+
+    button {
+      width: 100%;
+      height: 54px;
+      border: none;
+      border-radius: 18px;
+      background: #123b32;
+      color: #fffaf0;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    .secondary-btn {
+      background: #e8dfcf;
+      color: #19382f;
+    }
+
+    .info {
+      font-size: 17px;
+      line-height: 1.6;
+      margin: 8px 0 16px;
+    }
+
+    .stamp-count {
+      font-size: 42px;
+      font-weight: 800;
+      color: #123b32;
+      margin: 8px 0;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #6d655d;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+
+    .instagram {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      background: #fffdf7;
+      border: 1px solid #d8d0c2;
+      color: #123b32;
+      border-radius: 18px;
+      padding: 16px;
+      font-weight: 700;
+      margin-top: 14px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #81786e;
+      margin-top: 22px;
+      line-height: 1.6;
     }
   </style>
 </head>
+
 <body>
+  <div class="wrap">
+    <main class="container">
 
-<h2>고심 단골카드</h2>
+      <section class="hero">
+        <div class="brand">GOSIM SALON</div>
+        <h1>자주 와주시는 분께만 드리는<br />고심 단골카드</h1>
+        <p class="subtitle">
+          자주 와주시는 분들께만 열어둔<br />
+          작은 기록이에요.
+        </p>
+      </section>
 
-<div class="card">
-  <h3>내 정보 입력</h3>
-  <input id="name" placeholder="이름 또는 닉네임"><br><br>
-  <input id="phone" placeholder="휴대폰 뒷자리 4자리"><br><br>
-  <button onclick="saveUser()">기록 시작</button>
-</div>
+      <section class="card">
+        <div class="section-title">기록 시작하기</div>
+        <input id="name" placeholder="이름 또는 닉네임" />
+        <input id="phone" placeholder="휴대폰 뒷자리 4자리" maxlength="4" />
+        <button onclick="saveUser()">고심 단골카드 만들기</button>
+        <p class="small">
+          앱 설치 없이 사용할 수 있어요.  
+          입력한 기록은 현재 사용 중인 휴대폰 브라우저에 저장됩니다.
+        </p>
+      </section>
 
-<div class="card">
-  <h3>내 단골 정보</h3>
-  <p id="info">아직 기록 없음</p>
-  <button onclick="addStamp()">스탬프 +1</button>
-</div>
+      <section class="card">
+        <div class="section-title">내 단골 기록</div>
+        <p id="info" class="info">아직 기록이 없어요.</p>
+        <div id="stampCount" class="stamp-count">0</div>
+        <p class="small">고심쌀롱 방문 기록</p>
+        <button onclick="addStamp()">스탬프 +1</button>
+        <button class="secondary-btn" onclick="resetCard()">기록 초기화</button>
+      </section>
 
-<script>
-let user = JSON.parse(localStorage.getItem("user")) || null;
+      <a class="instagram" href="https://www.instagram.com/gosimsalon/" target="_blank">
+        Instagram 바로 보기 · @gosimsalon
+      </a>
 
-function saveUser() {
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
+      <div class="footer">
+        머물고 싶은 온도, 고심쌀롱<br />
+        GOSIM SALON LOYALTY CARD
+      </div>
 
-  user = {
-    name,
-    phone,
-    stamps: 0
-  };
+    </main>
+  </div>
 
-  localStorage.setItem("user", JSON.stringify(user));
-  updateUI();
-}
+  <script>
+    let user = JSON.parse(localStorage.getItem("gosimUser")) || null;
 
-function addStamp() {
-  if (!user) return alert("먼저 등록하세요");
+    function saveUser() {
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
 
-  user.stamps += 1;
-  localStorage.setItem("user", JSON.stringify(user));
-  updateUI();
-}
+      if (!name) {
+        alert("이름 또는 닉네임을 입력해주세요.");
+        return;
+      }
 
-function updateUI() {
-  if (!user) return;
+      user = {
+        name: name,
+        phone: phone,
+        stamps: user ? user.stamps : 0
+      };
 
-  document.getElementById("info").innerText =
-    `${user.name} / 스탬프 ${user.stamps}개`;
-}
+      localStorage.setItem("gosimUser", JSON.stringify(user));
+      updateUI();
+    }
 
-updateUI();
-</script>
+    function addStamp() {
+      if (!user) {
+        alert("먼저 단골카드를 만들어주세요.");
+        return;
+      }
 
+      user.stamps += 1;
+      localStorage.setItem("gosimUser", JSON.stringify(user));
+      updateUI();
+    }
+
+    function resetCard() {
+      const confirmReset = confirm("단골카드 기록을 초기화할까요?");
+      if (!confirmReset) return;
+
+      localStorage.removeItem("gosimUser");
+      user = null;
+      updateUI();
+    }
+
+    function updateUI() {
+      const info = document.getElementById("info");
+      const stampCount = document.getElementById("stampCount");
+
+      if (!user) {
+        info.innerText = "아직 기록이 없어요.";
+        stampCount.innerText = "0";
+        return;
+      }
+
+      info.innerText = `${user.name}님의 고심 단골카드`;
+      stampCount.innerText = user.stamps;
+    }
+
+    updateUI();
+  </script>
 </body>
 </html>
