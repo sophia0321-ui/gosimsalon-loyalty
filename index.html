@@ -158,8 +158,13 @@
   font-size: 16px;
   line-height: 1.6;
   font-weight: 700;
+  text-align: center;
 }
-    
+   .secondary-btn {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+} 
   </style>
 </head>
 
@@ -195,10 +200,12 @@
        <p class="small">
 QR을 찍을 때마다 방문 기록이 자동으로 쌓입니다.
 </p>
-      <div id="benefitMessage" class="benefit-message">
-  첫 기록이 시작되면 방문 혜택이 표시됩니다.
-</div>  
-        <button class="secondary-btn" onclick="resetCard()">기록 초기화</button>
+     <div id="benefitMessage" class="benefit-message">
+  기록이 쌓이면 혜택이 표시됩니다.
+</div>
+        <a class="secondary-btn" href="https://www.instagram.com/gosimsalon/" target="_blank">
+  고심쌀롱 이야기 보기
+</a>
       </section>
 
       <a class="instagram" href="https://www.instagram.com/gosimsalon/" target="_blank">
@@ -226,18 +233,18 @@ QR을 찍을 때마다 방문 기록이 자동으로 쌓입니다.
     return new Date().toISOString().slice(0, 10);
   }
 
-  function getBenefitMessage(visits) {
-    if (visits >= 10) {
-      return "고심 고인물이 되셨습니다. 선물이 준비되어 있습니다.";
-    }
+ function getBenefitMessage(visits) {
+  if (visits >= 10) {
+    return "고심 고인물이 되셨습니다\n작은 선물이 준비되어 있습니다.";
+  }
 
-    if (visits >= 5) {
-      return "당신은 진정한 단골입니다. 비밀가격에 메뉴를 이용하실 수 있습니다.";
-    }
+  if (visits >= 5) {
+    return "당신은 진정한 단골입니다\n비밀 가격이 준비되어 있습니다.";
+  }
 
-    if (visits >= 3) {
-      return "단골 커밍아웃! 주인장과 인사를 나누어주세요.";
-    }
+  if (visits >= 3) {
+    return "단골 커밍아웃\n주인장과 인사를 나누어주세요.";
+  }
 
     return "조용히 쌓이는 고심쌀롱 방문 기록입니다.";
   }
