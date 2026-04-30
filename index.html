@@ -179,9 +179,11 @@
       <section class="card">
         <div class="section-title">내 단골 기록</div>
         <p id="info" class="info">아직 기록이 없어요.</p>
-        <div id="stampCount" class="stamp-count">0</div>
+        <div id="visitCount" class="stamp-count">0</div>
         <p class="small">고심쌀롱 방문 기록</p>
-        <button onclick="addStamp()">스탬프 +1</button>
+       <p class="small">
+QR을 찍을 때마다 방문 기록이 자동으로 쌓입니다.
+</p>
         <button class="secondary-btn" onclick="resetCard()">기록 초기화</button>
       </section>
 
@@ -197,7 +199,7 @@
     </main>
   </div>
 
-  <script>
+ <script>
   let user = null;
 
   try {
@@ -206,22 +208,28 @@
     user = null;
   }
 
-  function saveUser() {
-    const nameInput = document.getElementById("name");
-    const phoneInput = document.getElementById("phone");
+  // 페이지 들어오면 자동 방문 체크
+  window.onload = function () {
+    if (user) {
+      user.visits = (user.visits || 0) + 1;
+      localStorage.setItem("gosimUser", JSON.stringify(user));
+      updateUI();
+    }
+  };
 
-    const name = nameInput.value.trim();
-    const phone = phoneInput.value.trim();
+  function saveUser() {
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
 
     if (!name) {
-      alert("이름 또는 닉네임을 입력해주세요.");
+      alert("이름을 입력해주세요.");
       return;
     }
 
     user = {
       name: name,
       phone: phone,
-      stamps: user && user.stamps ? user.stamps : 0
+      visits: 1
     };
 
     localStorage.setItem("gosimUser", JSON.stringify(user));
@@ -230,40 +238,27 @@
     alert("고심 단골카드가 만들어졌어요.");
   }
 
-  function addStamp() {
+  function updateUI() {
+    const info = document.getElementById("info");
+    const count = document.getElementById("visitCount");
+
     if (!user) {
-      alert("먼저 단골카드를 만들어주세요.");
+      info.innerText = "QR을 찍고 기록을 시작해보세요.";
+      count.innerText = "0";
       return;
     }
 
-    user.stamps = Number(user.stamps || 0) + 1;
-    localStorage.setItem("gosimUser", JSON.stringify(user));
-    updateUI();
+    info.innerText = user.name + "님의 방문 기록";
+    count.innerText = user.visits || 0;
   }
 
   function resetCard() {
-    const ok = confirm("단골카드 기록을 초기화할까요?");
+    const ok = confirm("기록을 초기화할까요?");
     if (!ok) return;
 
     localStorage.removeItem("gosimUser");
     user = null;
     updateUI();
-  }
-
-  function updateUI() {
-    const info = document.getElementById("info");
-    const stampCount = document.getElementById("stampCount");
-
-    if (!info || !stampCount) return;
-
-    if (!user) {
-      info.innerText = "아직 기록이 없어요.";
-      stampCount.innerText = "0";
-      return;
-    }
-
-    info.innerText = user.name + "님의 고심 단골카드";
-    stampCount.innerText = user.stamps || 0;
   }
 
   updateUI();
