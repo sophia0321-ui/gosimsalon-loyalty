@@ -208,22 +208,39 @@ QR을 찍을 때마다 방문 기록이 자동으로 쌓입니다.
     user = null;
   }
 
-  // 페이지 들어오면 자동 방문 체크
- window.onload = function () {
-  if (user) {
-    const today = new Date().toISOString().slice(0, 10);
+  function getToday() {
+    return new Date().toISOString().slice(0, 10);
+  }
 
-    // 마지막 방문 날짜 확인
-    if (user.lastVisit !== today) {
-      user.visits = (user.visits || 0) + 1;
-      user.lastVisit = today;
-
-      localStorage.setItem("gosimUser", JSON.stringify(user));
+  function getBenefitMessage(visits) {
+    if (visits >= 10) {
+      return "고심 고인물이 되셨습니다. 선물이 준비되어 있습니다.";
     }
 
-    updateUI();
+    if (visits >= 5) {
+      return "당신은 진정한 단골입니다. 비밀가격에 메뉴를 이용하실 수 있습니다.";
+    }
+
+    if (visits >= 3) {
+      return "단골 커밍아웃! 주인장과 인사를 나누어주세요.";
+    }
+
+    return "조용히 쌓이는 고심쌀롱 방문 기록입니다.";
   }
-};
+
+  window.onload = function () {
+    if (user) {
+      const today = getToday();
+
+      if (user.lastVisit !== today) {
+        user.visits = (user.visits || 0) + 1;
+        user.lastVisit = today;
+        localStorage.setItem("gosimUser", JSON.stringify(user));
+      }
+
+      updateUI();
+    }
+  };
 
   function saveUser() {
     const name = document.getElementById("name").value.trim();
@@ -235,11 +252,12 @@ QR을 찍을 때마다 방문 기록이 자동으로 쌓입니다.
     }
 
     user = {
-  name: name,
-  phone: phone,
-  visits: 1,
-  lastVisit: new Date().toISOString().slice(0, 10)
-};
+      name: name,
+      phone: phone,
+      visits: 1,
+      lastVisit: getToday()
+    };
+
     localStorage.setItem("gosimUser", JSON.stringify(user));
     updateUI();
 
@@ -249,15 +267,25 @@ QR을 찍을 때마다 방문 기록이 자동으로 쌓입니다.
   function updateUI() {
     const info = document.getElementById("info");
     const count = document.getElementById("visitCount");
+    const benefit = document.getElementById("benefitMessage");
 
     if (!user) {
       info.innerText = "QR을 찍고 기록을 시작해보세요.";
       count.innerText = "0";
+      if (benefit) {
+        benefit.innerText = "첫 기록이 시작되면 방문 혜택이 표시됩니다.";
+      }
       return;
     }
 
+    const visits = user.visits || 0;
+
     info.innerText = user.name + "님의 방문 기록";
-    count.innerText = user.visits || 0;
+    count.innerText = visits;
+
+    if (benefit) {
+      benefit.innerText = getBenefitMessage(visits);
+    }
   }
 
   function resetCard() {
