@@ -70,6 +70,27 @@
       text-decoration: none;
       font-weight: 700;
     }
+    .menu {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.menu a {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  border-radius: 14px;
+  background: #fffdf7;
+  text-decoration: none;
+  color: #19382f;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+html {
+  scroll-behavior: smooth;
+}
   </style>
 </head>
 
@@ -79,9 +100,14 @@
     <div class="hero">
       <h1>이 시간의 고심쌀롱</h1>
     </div>
-
-    <div class="section">
-      <div class="section-title">이달의 고심</div>
+    
+<div class="menu">
+  <a href="#month">이달의 고심</a>
+  <a href="#change">작은 변화</a>
+  <a href="#regular">단골에게</a>
+</div>
+   <div id="month" class="section">
+  <div class="section-title">이달의 고심</div>
       <div class="text">
         바다 앞에서 조용히 머물 수 있는 시간.
         고심쌀롱은 그 시간을 준비합니다.
@@ -89,16 +115,16 @@
       <div class="image"></div>
     </div>
 
-    <div class="section">
-      <div class="section-title">작은 변화</div>
+   <div id="change" class="section">
+  <div class="section-title">작은 변화</div>
       <div class="text">
         이번 달에는 새로운 디저트와 작은 우드 소품들이 들어왔습니다.
       </div>
       <div class="image"></div>
     </div>
 
-    <div class="section">
-      <div class="section-title">단골에게</div>
+    <div id="regular" class="section">
+  <div class="section-title">단골에게</div>
       <div class="text">
         자주 찾아주시는 분들께는 조용한 방식으로 작은 혜택을 준비하고 있습니다.
       </div>
