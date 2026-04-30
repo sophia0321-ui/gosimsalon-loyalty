@@ -198,62 +198,73 @@
   </div>
 
   <script>
-    let user = JSON.parse(localStorage.getItem("gosimUser")) || null;
+  let user = null;
 
-    function saveUser() {
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
+  try {
+    user = JSON.parse(localStorage.getItem("gosimUser"));
+  } catch (e) {
+    user = null;
+  }
 
-      if (!name) {
-        alert("이름 또는 닉네임을 입력해주세요.");
-        return;
-      }
+  function saveUser() {
+    const nameInput = document.getElementById("name");
+    const phoneInput = document.getElementById("phone");
 
-      user = {
-        name: name,
-        phone: phone,
-        stamps: user ? user.stamps : 0
-      };
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
 
-      localStorage.setItem("gosimUser", JSON.stringify(user));
-      updateUI();
+    if (!name) {
+      alert("이름 또는 닉네임을 입력해주세요.");
+      return;
     }
 
-    function addStamp() {
-      if (!user) {
-        alert("먼저 단골카드를 만들어주세요.");
-        return;
-      }
+    user = {
+      name: name,
+      phone: phone,
+      stamps: user && user.stamps ? user.stamps : 0
+    };
 
-      user.stamps += 1;
-      localStorage.setItem("gosimUser", JSON.stringify(user));
-      updateUI();
-    }
-
-    function resetCard() {
-      const confirmReset = confirm("단골카드 기록을 초기화할까요?");
-      if (!confirmReset) return;
-
-      localStorage.removeItem("gosimUser");
-      user = null;
-      updateUI();
-    }
-
-    function updateUI() {
-      const info = document.getElementById("info");
-      const stampCount = document.getElementById("stampCount");
-
-      if (!user) {
-        info.innerText = "아직 기록이 없어요.";
-        stampCount.innerText = "0";
-        return;
-      }
-
-      info.innerText = `${user.name}님의 고심 단골카드`;
-      stampCount.innerText = user.stamps;
-    }
-
+    localStorage.setItem("gosimUser", JSON.stringify(user));
     updateUI();
-  </script>
-</body>
-</html>
+
+    alert("고심 단골카드가 만들어졌어요.");
+  }
+
+  function addStamp() {
+    if (!user) {
+      alert("먼저 단골카드를 만들어주세요.");
+      return;
+    }
+
+    user.stamps = Number(user.stamps || 0) + 1;
+    localStorage.setItem("gosimUser", JSON.stringify(user));
+    updateUI();
+  }
+
+  function resetCard() {
+    const ok = confirm("단골카드 기록을 초기화할까요?");
+    if (!ok) return;
+
+    localStorage.removeItem("gosimUser");
+    user = null;
+    updateUI();
+  }
+
+  function updateUI() {
+    const info = document.getElementById("info");
+    const stampCount = document.getElementById("stampCount");
+
+    if (!info || !stampCount) return;
+
+    if (!user) {
+      info.innerText = "아직 기록이 없어요.";
+      stampCount.innerText = "0";
+      return;
+    }
+
+    info.innerText = user.name + "님의 고심 단골카드";
+    stampCount.innerText = user.stamps || 0;
+  }
+
+  updateUI();
+</script>
