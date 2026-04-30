@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>고심 단골카드</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f6f1e8;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<h2>고심 단골카드</h2>
+
+<div class="card">
+  <h3>내 정보 입력</h3>
+  <input id="name" placeholder="이름 또는 닉네임"><br><br>
+  <input id="phone" placeholder="휴대폰 뒷자리 4자리"><br><br>
+  <button onclick="saveUser()">기록 시작</button>
+</div>
+
+<div class="card">
+  <h3>내 단골 정보</h3>
+  <p id="info">아직 기록 없음</p>
+  <button onclick="addStamp()">스탬프 +1</button>
+</div>
+
+<script>
+let user = JSON.parse(localStorage.getItem("user")) || null;
+
+function saveUser() {
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+
+  user = {
+    name,
+    phone,
+    stamps: 0
+  };
+
+  localStorage.setItem("user", JSON.stringify(user));
+  updateUI();
+}
+
+function addStamp() {
+  if (!user) return alert("먼저 등록하세요");
+
+  user.stamps += 1;
+  localStorage.setItem("user", JSON.stringify(user));
+  updateUI();
+}
+
+function updateUI() {
+  if (!user) return;
+
+  document.getElementById("info").innerText =
+    `${user.name} / 스탬프 ${user.stamps}개`;
+}
+
+updateUI();
+</script>
+
+</body>
+</html>
